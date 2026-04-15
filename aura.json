@@ -1,0 +1,101 @@
+[
+    {
+        "nav": {
+            "logo": "",
+            "heading": "DIGITAL SCREEN"
+        },
+        "hero": {
+            "img": "",
+            "name": "Shima Abedi",
+            "post": {
+                "span1": "Senior Art Director and",
+                "span2": "Photographer"
+            }
+        },
+        "about": {
+            "header": "ABOUT",
+            "paragraph": "Jordan is an accomplished Art Director and Graphic Designer with a keen eye for visual storytelling and a passion for creating impactful, innovative, and memorable designs. With extensive experience leading creative projects across branding, digital, and print media, Jordan thrives on crafting engaging designs that connect with audiences and deliver results."
+        },
+        "Expreience": {
+            "header": "EXPERIENCE",
+            "experience": [
+                {
+                    "company": "Ogilvy & Mather",
+                    "position": "Senior Art Director",
+                    "tenure": "Jan 2020 – Present",
+                    "paragraph": "Managed a team of designers, copywriters, and photographers to deliver projects under tight deadlines. Led the redesign of Coca- Cola's digital assets, improving usability and aesthetic consistency."
+                },
+                {
+                    "company": "Pentagram",
+                    "position": "Graphic Designer",
+                    "tenure": "May 2015 – Dec 2019",
+                    "paragraph": "Designed comprehensive brand identities, including logos, packaging, and promotional materials. Collaborated with clients like Spotify and Airbnb to translate concepts into visually compelling campaigns."
+                }
+            ]
+        },
+        "projects": {
+            "heading": "FEATURED PROJECTS",
+            "items": [
+                {
+                    "title": "Acco Campaign",
+                    "img": "",
+                    "detailes": "Revamped Acco's brand with a bold, engaging campaign for global impact."
+                },
+                {
+                    "title": "Luna Direction",
+                    "img": "",
+                    "detailes": "Crafted Luna’s creative direction to elevate brand identity and audience connection."
+                }
+            ]
+        },
+        "Education": {
+            "heading": "EDUCATION",
+            "items": [
+                {
+                    "degree": "Bachelor of Fine Arts in Graphic Design",
+                    "institute": "Rhode Island School of Design (RISD)",
+                    "completion": "Graduated: May 2015"
+                },
+                {
+                    "degree": "Certificate in UI/UX Design",
+                    "institute": "General Assembly, New York",
+                    "completion": "Completed: Dec 2017"
+                }
+            ]
+        },
+        "skills": {
+            "heading": "SKILLS",
+            "items": [
+                {
+                    "title": "Branding & Identity",
+                    "value": "Logo design, typography, packaging, and style guides."
+                },
+                {
+                    "title": "UI/UX Design",
+                    "value": "Wireframing, prototyping, user research, and responsive web design."
+                },
+                {
+                    "title": "Project Management",
+                    "value": "Team leadership, client relations, and deadline management."
+                }
+            ]
+        },
+        "awards" : {
+            "heading" : "AWARDS",
+            "items" : [
+                {
+                    "title":"Best Campaign Design",
+                    "value": "Cannes Lions, 2022"
+                },
+                {
+                    "title":"Top Graphic Design Portfolio",
+                    "value": "AIGA Design Awards, 2021"
+                },
+                {
+                    "title":"Emerging Art Director",
+                    "value": "Clio Awards, 2020"
+                }
+            ]
+        }
+    }
+]
