@@ -80,7 +80,7 @@ async function run() {
     {
         const query = {}
         const cursour = herocollection.find(query)
-        const herodData = await cursour.toArray();
+        const heroData = await cursour.toArray();
         res.send(heroData)
     }
 )
