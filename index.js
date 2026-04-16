@@ -31,7 +31,7 @@ async function run() {
     const educationcollection = await client.db("aura").collection('education')
     const skillcollection = await client.db("aura").collection('skills')
     const herocollection = await client.db("aura").collection('home')
-    const projectcollection = await client.db("aura").collection('project')
+    const projectcollection = await client.db("aura").collection('projects')
     const navcollection = await client.db("aura").collection('nav')
     const footercollection = await client.db("aura").collection('footer')
     const welcomecollection = await client.db("aura").collection('welcome')
