@@ -84,7 +84,7 @@ async function run() {
         res.send(heroData)
     }
 )
-    app.get('/award', async(req, res)=>
+    app.get('/project', async(req, res)=>
     {
         const query = {}
         const cursour = projectcollection.find(query)
