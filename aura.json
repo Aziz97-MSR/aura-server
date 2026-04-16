@@ -1,11 +1,11 @@
 [
     {
         "nav": {
-            "logo": "",
+            "logo": "https://i.postimg.cc/bwXB16Qn/logo.jpg",
             "heading": "DIGITAL SCREEN"
         },
         "hero": {
-            "img": "",
+            "img": "https://i.postimg.cc/vmh2FbCv/Photo.jpg",
             "name": "Shima Abedi",
             "post": {
                 "span1": "Senior Art Director and",
@@ -16,7 +16,7 @@
             "header": "ABOUT",
             "paragraph": "Jordan is an accomplished Art Director and Graphic Designer with a keen eye for visual storytelling and a passion for creating impactful, innovative, and memorable designs. With extensive experience leading creative projects across branding, digital, and print media, Jordan thrives on crafting engaging designs that connect with audiences and deliver results."
         },
-        "Expreience": {
+        "expreience": {
             "header": "EXPERIENCE",
             "experience": [
                 {
@@ -38,17 +38,17 @@
             "items": [
                 {
                     "title": "Acco Campaign",
-                    "img": "",
+                    "img": "https://i.postimg.cc/GmkSKkQ4/Project1.png",
                     "detailes": "Revamped Acco's brand with a bold, engaging campaign for global impact."
                 },
                 {
                     "title": "Luna Direction",
-                    "img": "",
+                    "img": "https://i.postimg.cc/6pd1cd0y/Project2.jpg",
                     "detailes": "Crafted Luna’s creative direction to elevate brand identity and audience connection."
                 }
             ]
         },
-        "Education": {
+        "education": {
             "heading": "EDUCATION",
             "items": [
                 {
@@ -96,6 +96,40 @@
                     "value": "Clio Awards, 2020"
                 }
             ]
+        },
+        "footer" : 
+        {
+            "grid1": 
+                {
+                    "heading" : "Studio",
+                    "title" : "BBT",
+                    "paragraph" : "Art direction, photography, and visual systems for brands that value clarity.",
+                    "Cpyright" : "&copy; 2026 BB"
+                },
+                "grid2" : 
+                {
+                    "heading" : "DETAILS",
+                    "links" : [
+                        {
+                            "topic" : "LOCATION",
+                            "link" : "New York City"
+                        },
+                        {
+                            "topic" : "CONTACT",
+                            "link" : "hello@jordanreese.com"
+                        },
+                        {
+                            "topic" : "PHONE",
+                            "link" : "453-485-6481"
+                        }
+                    ]
+                },
+                "grid3" : {
+                    "heading" : "SOCIAL",
+                    "link1" : "INSTAGRAM",
+                    "link2" : "LINKEDIN",
+                    "glossary" : "New projects & collaborations welcome."
+                }
         }
     }
 ]
