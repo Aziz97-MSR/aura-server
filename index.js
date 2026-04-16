@@ -11,7 +11,7 @@ app.use(cors())
 app.use(express.json())
 
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@authority-ledger.vworqap.mongodb.net/?appName=Authority-Ledger`;
+const uri = `mongodb+srv://msraziz97_db_user:l08VXQsxPi1dGCPH@authority-ledger.vworqap.mongodb.net/?appName=Authority-Ledger`;
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -132,6 +132,7 @@ app.get('/' , (req , res)=>
 {
     res.send("Aura server is running")
 })
+
 
 app.listen(port, () => {
     console.log("Aura server is runnig in port : ", port);
