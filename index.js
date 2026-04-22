@@ -125,7 +125,7 @@ async function run() {
             const id = req.params.id
             const updatedItem = req.body
             const options = { upsert: true };
-             const filter = { _id: new ObjectId(id) };
+            const filter = { _id: new ObjectId(id) };
             const updatedDoc = {
                 $set: {
                     "grid1.paragraph": updatedItem.paragraph
@@ -207,6 +207,189 @@ async function run() {
             );
             res.send(result)
         })
+
+
+        app.put('/award/:id/:name', async (req, res) => {
+            const id = req.params.id
+            const name = req.params.name
+
+            const result = await awardcollection.updateOne(
+                { _id: new ObjectId(id) },
+                {
+                    $pull: {
+                        items: { title: name }
+                    }
+                }
+            );
+            res.send(result)
+        })
+
+
+        app.put('/experience/:id/:name', async (req, res) => {
+            const id = req.params.id
+            const name = req.params.name
+
+            const result = await experiencecollection.updateOne(
+                { _id: new ObjectId(id) },
+                {
+                    $pull: {
+                        items: { company: name }
+                    }
+                }
+            );
+            res.send(result)
+        })
+
+
+        app.put('/education/:id/:name', async (req, res) => {
+            const id = req.params.id
+            const name = req.params.name
+
+            const result = await educationcollection.updateOne(
+                { _id: new ObjectId(id) },
+                {
+                    $pull: {
+                        items: { degree: name }
+                    }
+                }
+            );
+            res.send(result)
+        })
+
+
+        app.put('/skill/:id/:name', async (req, res) => {
+            const id = req.params.id
+            const name = req.params.name
+
+            const result = await skill.updateOne(
+                { _id: new ObjectId(id) },
+                {
+                    $pull: {
+                        items: { title: name }
+                    }
+                }
+            );
+            res.send(result)
+        })
+
+        app.put('/feature/:id/:name', async (req, res) => {
+            const id = req.params.id
+            const name = req.params.name
+
+            const result = await projectcollection.updateOne(
+                { _id: new ObjectId(id) },
+                {
+                    $pull: {
+                        items: { title: name }
+                    }
+                }
+            );
+            res.send(result)
+        })
+
+        app.put('/education/:id/:name', async (req, res) => {
+            const id = req.params.id; 
+            const name = req.params.name;
+            const updatedData = req.body;
+
+            const result = await educationcollection.updateOne(
+                {
+                    _id: new ObjectId(id),
+                    "items.degree": name 
+                },
+                {
+                    $set: {
+                        "items.$": { ...updatedData }
+                    }
+                }
+            );
+            res.send(result);
+        });
+
+        app.put('/award/:id/:name', async (req, res) => {
+            const id = req.params.id; 
+            const name = req.params.name;
+            const updatedData = req.body;
+
+            const result = await awardcollection.updateOne(
+                {
+                    _id: new ObjectId(id),
+                    "items.title": name 
+                },
+                {
+                    $set: {
+                        "items.$": { ...updatedData }
+                    }
+                }
+            );
+            res.send(result);
+        });
+
+
+        app.put('/experience/:id/:name', async (req, res) => {
+            const id = req.params.id; 
+            const name = req.params.name;
+            const updatedData = req.body;
+
+            const result = await experiencecollection.updateOne(
+                {
+                    _id: new ObjectId(id),
+                    "items.company": name 
+                },
+                {
+                    $set: {
+                        "items.$": { ...updatedData }
+                    }
+                }
+            );
+            res.send(result);
+        });
+
+        app.put('/skill/:id/:name', async (req, res) => {
+            const id = req.params.id; 
+            const name = req.params.name;
+            const updatedData = req.body;
+
+            const result = await skillcollection.updateOne(
+                {
+                    _id: new ObjectId(id),
+                    "items.title": name 
+                },
+                {
+                    $set: {
+                        "items.$": { ...updatedData }
+                    }
+                }
+            );
+            res.send(result);
+        });
+
+        app.put('/feature/:id/:name', async (req, res) => {
+            const id = req.params.id; 
+            const name = req.params.name;
+            const updatedData = req.body;
+
+            const result = await projectcollection.updateOne(
+                {
+                    _id: new ObjectId(id),
+                    "items.title": name 
+                },
+                {
+                    $set: {
+                        "items.$": { ...updatedData }
+                    }
+                }
+            );
+            res.send(result);
+        });
+
+
+
+
+
+
+
+
 
 
 
