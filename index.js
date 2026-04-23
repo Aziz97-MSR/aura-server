@@ -35,6 +35,7 @@ async function run() {
         const navcollection = await client.db("aura").collection('nav')
         const footercollection = await client.db("aura").collection('footer')
         const welcomecollection = await client.db("aura").collection('welcome')
+        const cvcollection = await client.db("aura").collection('cv')
 
         app.get('/about', async (req, res) => {
             const query = {}
@@ -105,6 +106,15 @@ async function run() {
             res.send(introData)
         })
 
+        app.get('/cv', async (req, res) => {
+            const query = {}
+            const cursour = cvcollection.find(query)
+            const introData = await cursour.toArray();
+            res.send(introData)
+        })
+
+        
+
         app.put('/about/:id', async (req, res) => {
             const id = req.params.id
             const updatedItem = req.body
@@ -118,6 +128,23 @@ async function run() {
                 }
             }
             const result = await aboutcollection.updateOne(filter, updatedDoc, options);
+
+            res.send(result);
+        })
+
+        app.put('/cv/:id', async (req, res) => {
+            const id = req.params.id
+            const updatedItem = req.body
+
+            const options = { upsert: true };
+            const filter = { _id: new ObjectId(id) };
+
+            const updatedDoc = {
+                $set: {
+                    link: updatedItem.paragraph
+                }
+            }
+            const result = await cvcollection.updateOne(filter, updatedDoc, options);
 
             res.send(result);
         })
