@@ -141,7 +141,7 @@ async function run() {
 
             const updatedDoc = {
                 $set: {
-                    link: updatedItem.paragraph
+                    link: updatedItem.link
                 }
             }
             const result = await cvcollection.updateOne(filter, updatedDoc, options);
