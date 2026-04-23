@@ -209,7 +209,7 @@ async function run() {
         })
 
 
-        app.put('/award/:id/:name', async (req, res) => {
+        app.put('/delete/award/:id/:name', async (req, res) => {
             const id = req.params.id
             const name = req.params.name
 
@@ -225,7 +225,7 @@ async function run() {
         })
 
 
-        app.put('/experience/:id/:name', async (req, res) => {
+        app.put('/delete/experience/:id/:name', async (req, res) => {
             const id = req.params.id
             const name = req.params.name
 
@@ -241,7 +241,7 @@ async function run() {
         })
 
 
-        app.put('/education/:id/:name', async (req, res) => {
+        app.put('/delete/education/:id/:name', async (req, res) => {
             const id = req.params.id
             const name = req.params.name
 
@@ -257,11 +257,11 @@ async function run() {
         })
 
 
-        app.put('/skill/:id/:name', async (req, res) => {
+        app.put('/delete/skill/:id/:name', async (req, res) => {
             const id = req.params.id
             const name = req.params.name
 
-            const result = await skill.updateOne(
+            const result = await skillcollection.updateOne(
                 { _id: new ObjectId(id) },
                 {
                     $pull: {
@@ -272,7 +272,7 @@ async function run() {
             res.send(result)
         })
 
-        app.put('/feature/:id/:name', async (req, res) => {
+        app.put('/delete/feature/:id/:name', async (req, res) => {
             const id = req.params.id
             const name = req.params.name
 
