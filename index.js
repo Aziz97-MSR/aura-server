@@ -178,6 +178,23 @@ async function run() {
             );
             res.send(result)
         })
+
+        app.put('/scocial/:id', async (req, res) => {
+            const id = req.params.id
+            const newItem = req.body
+
+            const result = await footercollection.updateOne(
+                { _id: new ObjectId(id) },
+                {
+                    $push: {
+                        "grid3.links": newItem
+                    }
+                }
+            );
+            res.send(result)
+        })
+
+        
         app.put('/education/:id', async (req, res) => {
             const id = req.params.id
             const newItem = req.body
@@ -327,6 +344,25 @@ async function run() {
                 {
                     $set: {
                         "items.$": { ...updatedData }
+                    }
+                }
+            );
+            res.send(result);
+        });
+        
+        app.put('/detailes/:id/:name', async (req, res) => {
+            const id = req.params.id; 
+            const name = req.params.name;
+            const updatedData = req.body;
+
+            const result = await footercollection.updateOne(
+                {
+                    _id: new ObjectId(id),
+                    "grid2.links.label": name 
+                },
+                {
+                    $set: {
+                        "grid2.links.$": { ...updatedData }
                     }
                 }
             );
