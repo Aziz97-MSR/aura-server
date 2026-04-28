@@ -277,7 +277,7 @@ async function run() {
                 { _id: new ObjectId(id) },
                 {
                     $pull: {
-                        items: { company: name }
+                        experience: { company: name }
                     }
                 }
             );
