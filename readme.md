@@ -19,21 +19,21 @@
 | Endpoint | Method | Description |
 | :--- | :--- | :--- |
 
-| /about/:id | PUT | Editing about section paragraph|
-| /footer/:id | PUT | Editing footer section paragraph |
-| /cv/:id | PUT | Editing CV LINK |
+| `/about/:id` | PUT | Editing about section paragraph|
+| `/footer/:id` | PUT | Editing footer section paragraph |
+| `/cv/:id` | PUT | Editing CV LINK |
 
 
 # ALL Section LIST EDITING API
 | Endpoint | Method | Description |
 | :--- | :--- | :--- |
 
-| /experience/:id | PUT | ADD new item on experience list | 
-| /skill/:id | PUT | ADD new item on skill list | 
-| /scocial/:id | PUT | ADD new item on footer social links list | 
-| /education/:id | PUT | ADD new item on education list | 
-| /feature/:id | PUT | ADD new item on project list | 
-| /award/:id | PUT | ADD new item on award list | 
+| `/experience/:id` | PUT | ADD new item on experience list | 
+| `/skill/:id` | PUT | ADD new item on skill list | 
+| `/scocial/:id` | PUT | ADD new item on footer social links list | 
+| `/education/:id` | PUT | ADD new item on education list | 
+| `/feature/:id` | PUT | ADD new item on project list | 
+| `/award/:id` | PUT | ADD new item on award list | 
 
 
 # Delete from Section LIST api
