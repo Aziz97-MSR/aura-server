@@ -17,6 +17,7 @@
 
 # ALL Section-Update API
 | Endpoint | Method | Description |
+| :--- | :--- | :--- |
 
 | /about/:id | PUT | Editing about section paragraph|
 | /footer/:id | PUT | Editing footer section paragraph |
@@ -25,6 +26,7 @@
 
 # ALL Section LIST EDITING API
 | Endpoint | Method | Description |
+| :--- | :--- | :--- |
 
 | /experience/:id | PUT | ADD new item on experience list | 
 | /skill/:id | PUT | ADD new item on skill list | 
@@ -37,6 +39,7 @@
 # Delete from Section LIST api
 
 | Endpoint | Method | Description |
+| :--- | :--- | :--- |
 
 | /delete/award/:id/:name | PUT | delete from award list|
 | /delete/education/:id/:name | PUT | delete from education list|
@@ -46,7 +49,7 @@
 # Edit in section LIST
 
 | Endpoint | Method | Description |
-
+| :--- | :--- | :--- |
 
 | /education/:id/:name | PUT | EDIT a item on education list |
 | /detailes/:id/:name | PUT | EDIT a item on footer detailes list |
