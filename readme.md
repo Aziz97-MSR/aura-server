@@ -20,6 +20,8 @@
 
 | Endpoint | Method | Description |
 | :--- | :--- | :--- |
+| `/editNav/:id` | PUT | Editing Nav section |
+| `/editHero/:id` | PUT | Editing hero section |
 | `/about/:id` | PUT | Editing about section paragraph|
 | `/footer/:id` | PUT | Editing footer section paragraph |
 | `/cv/:id` | PUT | Editing CV LINK |
