@@ -113,7 +113,7 @@ async function run() {
             res.send(introData)
         })
 
-        
+
 
         app.put('/about/:id', async (req, res) => {
             const id = req.params.id
@@ -164,6 +164,37 @@ async function run() {
         })
 
 
+        app.put('/editHero/:id', async (req, res) => {
+            const id = req.params.id
+            const updatedItem = req.body
+            const options = { upsert: true };
+            const filter = { _id: new ObjectId(id) };
+            const updatedDoc = {
+                $set: {
+                     ...updatedItem
+                }
+            }
+            const result = await herocollection.updateOne(filter, updatedDoc, options);
+
+            res.send(result);
+        })
+
+        app.put('/editNav/:id', async (req, res) => {
+            const id = req.params.id
+            const updatedItem = req.body
+            const options = { upsert: true };
+            const filter = { _id: new ObjectId(id) };
+            const updatedDoc = {
+                $set: {
+                     ...updatedItem
+                }
+            }
+            const result = await navcollection.updateOne(filter, updatedDoc, options);
+
+            res.send(result);
+        })
+
+
         app.put('/experience/:id', async (req, res) => {
             const id = req.params.id
             const newItem = req.body
@@ -194,7 +225,7 @@ async function run() {
             res.send(result)
         })
 
-        
+
         app.put('/education/:id', async (req, res) => {
             const id = req.params.id
             const newItem = req.body
@@ -332,14 +363,14 @@ async function run() {
         })
 
         app.put('/education/:id/:name', async (req, res) => {
-            const id = req.params.id; 
+            const id = req.params.id;
             const name = req.params.name;
             const updatedData = req.body;
 
             const result = await educationcollection.updateOne(
                 {
                     _id: new ObjectId(id),
-                    "items.degree": name 
+                    "items.degree": name
                 },
                 {
                     $set: {
@@ -349,16 +380,16 @@ async function run() {
             );
             res.send(result);
         });
-        
+
         app.put('/detailes/:id/:name', async (req, res) => {
-            const id = req.params.id; 
+            const id = req.params.id;
             const name = req.params.name;
             const updatedData = req.body;
 
             const result = await footercollection.updateOne(
                 {
                     _id: new ObjectId(id),
-                    "grid2.links.label": name 
+                    "grid2.links.label": name
                 },
                 {
                     $set: {
@@ -370,14 +401,14 @@ async function run() {
         });
 
         app.put('/award/:id/:name', async (req, res) => {
-            const id = req.params.id; 
+            const id = req.params.id;
             const name = req.params.name;
             const updatedData = req.body;
 
             const result = await awardcollection.updateOne(
                 {
                     _id: new ObjectId(id),
-                    "items.title": name 
+                    "items.title": name
                 },
                 {
                     $set: {
@@ -390,18 +421,18 @@ async function run() {
 
 
         app.put('/experience/:id/:name', async (req, res) => {
-            const id = req.params.id; 
+            const id = req.params.id;
             const name = req.params.name;
             const updatedData = req.body;
 
             const result = await experiencecollection.updateOne(
                 {
                     _id: new ObjectId(id),
-                    "items.company": name 
+                    "experience.company": name
                 },
                 {
                     $set: {
-                        "items.$": { ...updatedData }
+                        "experience.$": { ...updatedData }
                     }
                 }
             );
@@ -409,14 +440,14 @@ async function run() {
         });
 
         app.put('/skill/:id/:name', async (req, res) => {
-            const id = req.params.id; 
+            const id = req.params.id;
             const name = req.params.name;
             const updatedData = req.body;
 
             const result = await skillcollection.updateOne(
                 {
                     _id: new ObjectId(id),
-                    "items.title": name 
+                    "items.title": name
                 },
                 {
                     $set: {
@@ -428,14 +459,14 @@ async function run() {
         });
 
         app.put('/feature/:id/:name', async (req, res) => {
-            const id = req.params.id; 
+            const id = req.params.id;
             const name = req.params.name;
             const updatedData = req.body;
 
             const result = await projectcollection.updateOne(
                 {
                     _id: new ObjectId(id),
-                    "items.title": name 
+                    "items.title": name
                 },
                 {
                     $set: {
@@ -445,8 +476,6 @@ async function run() {
             );
             res.send(result);
         });
-
-
 
 
 

@@ -53,5 +53,6 @@
 | `/education/:id/:name` | PUT | EDIT a item on education list |
 | `/detailes/:id/:name` | PUT | EDIT a item on footer detailes list |
 | `/award/:id/:name` | PUT | EDIT a item on award list |
-| `/skill/:id/:name` | PUT | EDIT a item on experience list |
+| `/skill/:id/:name` | PUT | EDIT a item on skill list |
+| `/experience/:id/:name` | PUT | EDIT a item on Experience list |
 | `/feature/:id/:name` | PUT | EDIT a item on project list |
