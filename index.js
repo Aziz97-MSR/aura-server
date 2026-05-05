@@ -424,15 +424,23 @@ async function run() {
             const docId = req.params.docId;
             const expId = req.params.expId;
 
+            const updatedData = { ...req.body };
+
+            delete updatedData.id;
+
+            const updateFields = {};
+            for (const key in updatedData) {
+
+                updateFields[`experience.$.${key}`] = updatedData[key];
+            }
+
             const result = await experiencecollection.updateOne(
                 {
                     _id: new ObjectId(docId),
                     "experience.id": expId
                 },
                 {
-                    $set: {
-                        "experience.$.paragraph": req.body.paragraph
-                    }
+                    $set: updateFields
                 }
             );
 
