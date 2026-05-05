@@ -114,378 +114,303 @@ async function run() {
         })
 
 
+        // ==========================================
+        // SECTION 1: SINGULAR DOCUMENT UPDATES
+        // (For top-level properties and single objects)
+        // ==========================================
 
+        // Update Hero (Dynamic fields with nested object support)
+        app.put('/hero/:id', async (req, res) => {
+            const id = req.params.id;
+            const updatedData = { ...req.body };
+            delete updatedData._id; // Protect main ID
+
+            const updateFields = {};
+            for (const key in updatedData) {
+                if (typeof updatedData[key] === 'object' && updatedData[key] !== null) {
+                    for (const nestedKey in updatedData[key]) {
+                        updateFields[`${key}.${nestedKey}`] = updatedData[key][nestedKey];
+                    }
+                } else {
+                    updateFields[key] = updatedData[key];
+                }
+            }
+
+            const result = await herocollection.updateOne(
+                { _id: new ObjectId(id) },
+                { $set: updateFields },
+                { upsert: true }
+            );
+            res.send(result);
+        });
+
+        // Update About
         app.put('/about/:id', async (req, res) => {
-            const id = req.params.id
-            const updatedItem = req.body
-
-            const options = { upsert: true };
-            const filter = { _id: new ObjectId(id) };
-
-            const updatedDoc = {
-                $set: {
-                    paragraph: updatedItem.paragraph
-                }
-            }
-            const result = await aboutcollection.updateOne(filter, updatedDoc, options);
-
+            const result = await aboutcollection.updateOne(
+                { _id: new ObjectId(req.params.id) },
+                { $set: { paragraph: req.body.paragraph } },
+                { upsert: true }
+            );
             res.send(result);
-        })
+        });
 
+        // Update CV
         app.put('/cv/:id', async (req, res) => {
-            const id = req.params.id
-            const updatedItem = req.body
-
-            const options = { upsert: true };
-            const filter = { _id: new ObjectId(id) };
-
-            const updatedDoc = {
-                $set: {
-                    link: updatedItem.link
-                }
-            }
-            const result = await cvcollection.updateOne(filter, updatedDoc, options);
-
+            const result = await cvcollection.updateOne(
+                { _id: new ObjectId(req.params.id) },
+                { $set: { link: req.body.link } },
+                { upsert: true }
+            );
             res.send(result);
-        })
-        app.put('/footer/:id', async (req, res) => {
-            const id = req.params.id
-            const updatedItem = req.body
-            const options = { upsert: true };
-            const filter = { _id: new ObjectId(id) };
-            const updatedDoc = {
-                $set: {
-                    "grid1.paragraph": updatedItem.paragraph
-                }
-            }
-            const result = await footercollection.updateOne(filter, updatedDoc, options);
+        });
 
+        // Update Nav
+        app.put('/nav/:id', async (req, res) => {
+            const updatedData = { ...req.body };
+            delete updatedData._id;
+            const result = await navcollection.updateOne(
+                { _id: new ObjectId(req.params.id) },
+                { $set: updatedData },
+                { upsert: true }
+            );
             res.send(result);
-        })
+        });
 
 
-        app.put('/editHero/:id', async (req, res) => {
-            const id = req.params.id
-            const updatedItem = req.body
-            const options = { upsert: true };
-            const filter = { _id: new ObjectId(id) };
-            const updatedDoc = {
-                $set: {
-                    ...updatedItem
-                }
+
+        // ==========================================
+        // SECTION 2: ARRAY ITEM MANAGEMENT (Add, Edit, Delete)
+        // ==========================================
+
+        // A helper function to create safe dynamic update queries for arrays
+        const buildArrayUpdateFields = (arrayName, body) => {
+            const updatedData = { ...body };
+            delete updatedData.id; // Protect nested ID
+            const updateFields = {};
+            for (const key in updatedData) {
+                updateFields[`${arrayName}.$.${key}`] = updatedData[key];
             }
-            const result = await herocollection.updateOne(filter, updatedDoc, options);
+            return updateFields;
+        };
 
-            res.send(result);
-        })
-
-        app.put('/editNav/:id', async (req, res) => {
-            const id = req.params.id
-            const updatedItem = req.body
-            const options = { upsert: true };
-            const filter = { _id: new ObjectId(id) };
-            const updatedDoc = {
-                $set: {
-                    ...updatedItem
-                }
-            }
-            const result = await navcollection.updateOne(filter, updatedDoc, options);
-
-            res.send(result);
-        })
-
-
-        app.put('/experience/:id', async (req, res) => {
-            const id = req.params.id
-            const newItem = req.body
+        // --- EXPERIENCE ---
+        app.put('/experience/:docId', async (req, res) => {
+            const newItem = req.body;
+            if (!newItem.id) newItem.id = Date.now().toString(); // Auto-generate ID on Backend
 
             const result = await experiencecollection.updateOne(
-                { _id: new ObjectId(id) },
-                {
-                    $push: {
-                        experience: newItem
-                    }
-                }
+                { _id: new ObjectId(req.params.docId) },
+                { $push: { experience: newItem } }
             );
-            res.send(result)
-        })
-
-        app.put('/scocial/:id', async (req, res) => {
-            const id = req.params.id
-            const newItem = req.body
-
-            const result = await footercollection.updateOne(
-                { _id: new ObjectId(id) },
-                {
-                    $push: {
-                        "grid3.links": newItem
-                    }
-                }
-            );
-            res.send(result)
-        })
-
-
-        app.put('/education/:id', async (req, res) => {
-            const id = req.params.id
-            const newItem = req.body
-
-            const result = await educationcollection.updateOne(
-                { _id: new ObjectId(id) },
-                {
-                    $push: {
-                        items: newItem
-                    }
-                }
-            );
-            res.send(result)
-        })
-        app.put('/skill/:id', async (req, res) => {
-            const id = req.params.id
-            const newItem = req.body
-
-            const result = await skillcollection.updateOne(
-                { _id: new ObjectId(id) },
-                {
-                    $push: {
-                        items: newItem
-                    }
-                }
-            );
-            res.send(result)
-        })
-        app.put('/feature/:id', async (req, res) => {
-            const id = req.params.id
-            const newItem = req.body
-
-            const result = await projectcollection.updateOne(
-                { _id: new ObjectId(id) },
-                {
-                    $push: {
-                        items: newItem
-                    }
-                }
-            );
-            res.send(result)
-        })
-        app.put('/award/:id', async (req, res) => {
-            const id = req.params.id
-            const newItem = req.body
-
-            const result = await awardcollection.updateOne(
-                { _id: new ObjectId(id) },
-                {
-                    $push: {
-                        items: newItem
-                    }
-                }
-            );
-            res.send(result)
-        })
-
-
-        app.put('/delete/award/:id/:name', async (req, res) => {
-            const id = req.params.id
-            const name = req.params.name
-
-            const result = await awardcollection.updateOne(
-                { _id: new ObjectId(id) },
-                {
-                    $pull: {
-                        items: { title: name }
-                    }
-                }
-            );
-            res.send(result)
-        })
-
-
-        app.put('/delete/experience/:id/:name', async (req, res) => {
-            const id = req.params.id
-            const name = req.params.name
-
+            res.send(result);
+        });
+        app.put('/experience/:docId/:itemId', async (req, res) => {
             const result = await experiencecollection.updateOne(
-                { _id: new ObjectId(id) },
-                {
-                    $pull: {
-                        experience: { company: name }
-                    }
-                }
+                { _id: new ObjectId(req.params.docId), "experience.id": req.params.itemId },
+                { $set: buildArrayUpdateFields("experience", req.body) }
             );
-            res.send(result)
-        })
-
-
-        app.put('/delete/education/:id/:name', async (req, res) => {
-            const id = req.params.id
-            const name = req.params.name
-
-            const result = await educationcollection.updateOne(
-                { _id: new ObjectId(id) },
-                {
-                    $pull: {
-                        items: { degree: name }
-                    }
-                }
-            );
-            res.send(result)
-        })
-
-
-        app.put('/delete/skill/:id/:name', async (req, res) => {
-            const id = req.params.id
-            const name = req.params.name
-
-            const result = await skillcollection.updateOne(
-                { _id: new ObjectId(id) },
-                {
-                    $pull: {
-                        items: { title: name }
-                    }
-                }
-            );
-            res.send(result)
-        })
-
-        app.put('/delete/feature/:id/:name', async (req, res) => {
-            const id = req.params.id
-            const name = req.params.name
-
-            const result = await projectcollection.updateOne(
-                { _id: new ObjectId(id) },
-                {
-                    $pull: {
-                        items: { title: name }
-                    }
-                }
-            );
-            res.send(result)
-        })
-
-        app.put('/education/:id/:name', async (req, res) => {
-            const id = req.params.id;
-            const name = req.params.name;
-            const updatedData = req.body;
-
-            const result = await educationcollection.updateOne(
-                {
-                    _id: new ObjectId(id),
-                    "items.degree": name
-                },
-                {
-                    $set: {
-                        "items.$": { ...updatedData }
-                    }
-                }
+            res.send(result);
+        });
+        app.delete('/experience/:docId/:itemId', async (req, res) => {
+            const result = await experiencecollection.updateOne(
+                { _id: new ObjectId(req.params.docId) },
+                { $pull: { experience: { id: req.params.itemId } } }
             );
             res.send(result);
         });
 
-        app.put('/detailes/:id/:name', async (req, res) => {
-            const id = req.params.id;
-            const name = req.params.name;
-            const updatedData = req.body;
-
-            const result = await footercollection.updateOne(
-                {
-                    _id: new ObjectId(id),
-                    "grid2.links.label": name
-                },
-                {
-                    $set: {
-                        "grid2.links.$": { ...updatedData }
-                    }
-                }
-            );
-            res.send(result);
-        });
-
-        app.put('/award/:id/:name', async (req, res) => {
-            const id = req.params.id;
-            const name = req.params.name;
-            const updatedData = req.body;
+        // --- AWARDS ---
+        app.put('/award/:docId', async (req, res) => {
+            const newItem = req.body;
+            if (!newItem.id) newItem.id = Date.now().toString(); // Auto-generate ID on Backend
 
             const result = await awardcollection.updateOne(
-                {
-                    _id: new ObjectId(id),
-                    "items.title": name
-                },
-                {
-                    $set: {
-                        "items.$": { ...updatedData }
-                    }
-                }
+                { _id: new ObjectId(req.params.docId) },
+                { $push: { items: newItem } }
+            );
+            res.send(result);
+        });
+        app.put('/award/:docId/:itemId', async (req, res) => {
+            const result = await awardcollection.updateOne(
+                { _id: new ObjectId(req.params.docId), "items.id": req.params.itemId },
+                { $set: buildArrayUpdateFields("items", req.body) }
+            );
+            res.send(result);
+        });
+        app.delete('/award/:docId/:itemId', async (req, res) => {
+            const result = await awardcollection.updateOne(
+                { _id: new ObjectId(req.params.docId) },
+                { $pull: { items: { id: req.params.itemId } } }
             );
             res.send(result);
         });
 
 
-        app.put('/experience/:docId/:expId', async (req, res) => {
-            const docId = req.params.docId;
-            const expId = req.params.expId;
+        // --- EDUCATION ---
+        app.put('/education/:docId', async (req, res) => {
+            const newItem = req.body;
+            if (!newItem.id) newItem.id = Date.now().toString(); // Auto-generate ID on Backend
+
+            const result = await educationcollection.updateOne(
+                { _id: new ObjectId(req.params.docId) },
+                { $push: { items: newItem } }
+            );
+            res.send(result);
+        });
+        app.put('/education/:docId/:itemId', async (req, res) => {
+            const result = await educationcollection.updateOne(
+                { _id: new ObjectId(req.params.docId), "items.id": req.params.itemId },
+                { $set: buildArrayUpdateFields("items", req.body) }
+            );
+            res.send(result);
+        });
+        app.delete('/education/:docId/:itemId', async (req, res) => {
+            const result = await educationcollection.updateOne(
+                { _id: new ObjectId(req.params.docId) },
+                { $pull: { items: { id: req.params.itemId } } }
+            );
+            res.send(result);
+        });
+
+
+        // --- SKILLS ---
+        app.put('/skill/:docId', async (req, res) => {
+            const newItem = req.body;
+            if (!newItem.id) newItem.id = Date.now().toString(); // Auto-generate ID on Backend
+
+            const result = await skillcollection.updateOne(
+                { _id: new ObjectId(req.params.docId) },
+                { $push: { items: newItem } }
+            );
+            res.send(result);
+        });
+        app.put('/skill/:docId/:itemId', async (req, res) => {
+            const result = await skillcollection.updateOne(
+                { _id: new ObjectId(req.params.docId), "items.id": req.params.itemId },
+                { $set: buildArrayUpdateFields("items", req.body) }
+            );
+            res.send(result);
+        });
+        app.delete('/skill/:docId/:itemId', async (req, res) => {
+            const result = await skillcollection.updateOne(
+                { _id: new ObjectId(req.params.docId) },
+                { $pull: { items: { id: req.params.itemId } } }
+            );
+            res.send(result);
+        });
+
+
+        // --- FEATURES (PROJECTS) ---
+        app.put('/feature/:docId', async (req, res) => {
+            const newItem = req.body;
+            if (!newItem.id) newItem.id = Date.now().toString(); // Auto-generate ID on Backend
+
+            const result = await projectcollection.updateOne(
+                { _id: new ObjectId(req.params.docId) },
+                { $push: { items: newItem } }
+            );
+            res.send(result);
+        });
+        app.put('/feature/:docId/:itemId', async (req, res) => {
+            const result = await projectcollection.updateOne(
+                { _id: new ObjectId(req.params.docId), "items.id": req.params.itemId },
+                { $set: buildArrayUpdateFields("items", req.body) }
+            );
+            res.send(result);
+        });
+        app.delete('/feature/:docId/:itemId', async (req, res) => {
+            const result = await projectcollection.updateOne(
+                { _id: new ObjectId(req.params.docId) },
+                { $pull: { items: { id: req.params.itemId } } }
+            );
+            res.send(result);
+        });
+
+
+        // ==========================================
+        // UNIFIED FOOTER ROUTES (/footer/...)
+        // ==========================================
+
+        // Helper to map the URL section to the exact MongoDB array path
+        const getGridPath = (section) => {
+            if (section === 'details') return 'grid2.links';
+            if (section === 'social') return 'grid3.links';
+            return null; // Prevents updating invalid paths
+        };
+
+        // 1. UPDATE GRID 1 (Top-level paragraph, title, etc.)
+        app.put('/footer/:docId', async (req, res) => {
+            const updatedData = { ...req.body };
+            delete updatedData._id;
+
+            // Dynamically update grid1 fields (e.g., {"grid1.paragraph": "New text"})
+            const updateFields = {};
+            for (const key in updatedData) {
+                updateFields[`grid1.${key}`] = updatedData[key];
+            }
+
+            const result = await footercollection.updateOne(
+                { _id: new ObjectId(req.params.docId) },
+                { $set: updateFields }
+            );
+            res.send(result);
+        });
+
+        // 2. ADD ITEM TO ARRAY (Details or Social)
+        // URL Example: PUT /footer/69e0...de2/details  OR  /footer/69e0...de2/social
+        app.put('/footer/:docId/:section', async (req, res) => {
+            const { docId, section } = req.params;
+            const arrayPath = getGridPath(section);
+
+            if (!arrayPath) return res.status(400).send({ error: "Invalid section" });
+
+            const newItem = req.body;
+            if (!newItem.id) newItem.id = Date.now().toString();
+
+            const result = await footercollection.updateOne(
+                { _id: new ObjectId(docId) },
+                { $push: { [arrayPath]: newItem } }
+            );
+            res.send(result);
+        });
+
+        // 3. EDIT ITEM IN ARRAY (Details or Social)
+        // URL Example: PUT /footer/69e0...de2/details/1
+        app.put('/footer/:docId/:section/:itemId', async (req, res) => {
+            const { docId, section, itemId } = req.params;
+            const arrayPath = getGridPath(section);
+
+            if (!arrayPath) return res.status(400).send({ error: "Invalid section" });
 
             const updatedData = { ...req.body };
-
             delete updatedData.id;
 
             const updateFields = {};
             for (const key in updatedData) {
-
-                updateFields[`experience.$.${key}`] = updatedData[key];
+                updateFields[`${arrayPath}.$.${key}`] = updatedData[key];
             }
 
-            const result = await experiencecollection.updateOne(
-                {
-                    _id: new ObjectId(docId),
-                    "experience.id": expId
-                },
-                {
-                    $set: updateFields
-                }
-            );
-
-            res.send(result);
-        });
-
-        app.put('/skill/:id/:name', async (req, res) => {
-            const id = req.params.id;
-            const name = req.params.name;
-            const updatedData = req.body;
-
-            const result = await skillcollection.updateOne(
-                {
-                    _id: new ObjectId(id),
-                    "items.title": name
-                },
-                {
-                    $set: {
-                        "items.$": { ...updatedData }
-                    }
-                }
+            const result = await footercollection.updateOne(
+                { _id: new ObjectId(docId), [`${arrayPath}.id`]: itemId },
+                { $set: updateFields }
             );
             res.send(result);
         });
 
-        app.put('/feature/:id/:name', async (req, res) => {
-            const id = req.params.id;
-            const name = req.params.name;
-            const updatedData = req.body;
+        // 4. DELETE ITEM FROM ARRAY (Details or Social)
+        // URL Example: DELETE /footer/69e0...de2/social/2
+        app.delete('/footer/:docId/:section/:itemId', async (req, res) => {
+            const { docId, section, itemId } = req.params;
+            const arrayPath = getGridPath(section);
 
-            const result = await projectcollection.updateOne(
-                {
-                    _id: new ObjectId(id),
-                    "items.title": name
-                },
-                {
-                    $set: {
-                        "items.$": { ...updatedData }
-                    }
-                }
+            if (!arrayPath) return res.status(400).send({ error: "Invalid section" });
+
+            const result = await footercollection.updateOne(
+                { _id: new ObjectId(docId) },
+                { $pull: { [arrayPath]: { id: itemId } } }
             );
             res.send(result);
         });
-
-
 
 
 
