@@ -338,20 +338,17 @@ async function run() {
             return null; // Prevents updating invalid paths
         };
 
-        // 1. UPDATE GRID 1 (Top-level paragraph, title, etc.)
+        // 1. UPDATE GRID 1 (And other top-level grid headings)
         app.put('/footer/:docId', async (req, res) => {
             const updatedData = { ...req.body };
             delete updatedData._id;
 
-            // Dynamically update grid1 fields (e.g., {"grid1.paragraph": "New text"})
-            const updateFields = {};
-            for (const key in updatedData) {
-                updateFields[`grid1.${key}`] = updatedData[key];
-            }
-
+            // Since the frontend is already sending exact MongoDB paths 
+            // (e.g., {"grid1.paragraph": "New text", "grid2.heading": "DETAILS"}),
+            // we can pass the data directly into $set!
             const result = await footercollection.updateOne(
                 { _id: new ObjectId(req.params.docId) },
-                { $set: updateFields }
+                { $set: updatedData }
             );
             res.send(result);
         });
