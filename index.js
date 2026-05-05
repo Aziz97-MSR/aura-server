@@ -171,7 +171,7 @@ async function run() {
             const filter = { _id: new ObjectId(id) };
             const updatedDoc = {
                 $set: {
-                     ...updatedItem
+                    ...updatedItem
                 }
             }
             const result = await herocollection.updateOne(filter, updatedDoc, options);
@@ -186,7 +186,7 @@ async function run() {
             const filter = { _id: new ObjectId(id) };
             const updatedDoc = {
                 $set: {
-                     ...updatedItem
+                    ...updatedItem
                 }
             }
             const result = await navcollection.updateOne(filter, updatedDoc, options);
@@ -420,22 +420,22 @@ async function run() {
         });
 
 
-        app.put('/experience/:id/:name', async (req, res) => {
-            const id = req.params.id;
-            const name = req.params.name;
-            const updatedData = req.body;
+        app.put('/experience/:docId/:expId', async (req, res) => {
+            const docId = req.params.docId;
+            const expId = req.params.expId;
 
             const result = await experiencecollection.updateOne(
                 {
-                    _id: new ObjectId(id),
-                    "experience.company": name
+                    _id: new ObjectId(docId),
+                    "experience.id": expId
                 },
                 {
                     $set: {
-                        "experience.$": { ...updatedData }
+                        "experience.$.paragraph": req.body.paragraph
                     }
                 }
             );
+
             res.send(result);
         });
 
